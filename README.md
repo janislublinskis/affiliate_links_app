@@ -47,6 +47,8 @@ It’s not a bad idea to check your database to make sure everything migrated th
 
 To fill `links` table with 3 affiliate links.
 
+11. DB Schema file provided at app/database/SCHEMA:affiliate_links_app.uml
+
 That is all you need to get started on a project.
 
 
