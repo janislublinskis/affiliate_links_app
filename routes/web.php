@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [LinkController::class, 'index'])
+    ->middleware('guest')
+    ->name('links');
+
+Route::get('/links/{uuid}', [LinkController::class, 'click'])
+    ->name('click');
+
+Route::get('/stats', [LinkController::class, 'stats'])
+    ->middleware('guest')
+    ->name('stats');
+
+Route::get('/welcome', function () {
     return view('welcome');
-});
+})->middleware(['guest'])->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

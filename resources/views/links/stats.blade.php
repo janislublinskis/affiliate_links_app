@@ -18,30 +18,101 @@
         body {
             font-family: 'Nunito';
         }
+
+        table, th, td {
+            border: #4a5568 1px solid;
+        }
+        th, td {
+            padding: .2em;
+        }
+        td {
+            text-align: center;
+        }
     </style>
 </head>
 <body class="antialiased">
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+        @if (Route::has('welcome'))
+            <a href="{{ route('welcome') }}" class="ml-4 text-sm text-gray-700 underline">Home</a>
+        @endif
+    </div>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-        <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-            <div class="grid grid-cols-1 md:grid-cols-3">
-                @if(session()->has('message'))
-                    <div class="alert alert-success alert-dismissible">
-                        <b> {{ session('message') }} </b>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                <div class="hidden px-6 py-4 sm:block">
-                    @if (Route::has('stats'))
-                        <a href="{{ route('stats') }}" class="ml-4 text-sm text-gray-700 underline">Statistics</a>
-                    @endif
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
-                </div>
-            </div>
+        <div style="margin-bottom: 5%">
+            <table class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow">
+                <thead>
+                <tr>
+                    <th>Link</th>
+                    <th>Visits count</th>
+                    <th>Last visited</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($links as $link)
+                    <tr>
+                        <td>{{$link->url}}</td>
+                        <td>{{$link->clicks_count}}</td>
+                        <td>{{$link->updated_at}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
+        <!-- Charts containers -->
+        <div id="bar-chart" style="height: 20%;"></div>
+        <div id="pie-chart" style="height: 20%;"></div>
+
+        <!-- Charting library -->
+        <script src="https://unpkg.com/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <!-- Chartisan -->
+        <script src="https://unpkg.com/@chartisan/chartjs@^2.1.0/dist/chartisan_chartjs.umd.js"></script>
+        <!-- Your application script -->
+        <script>
+            const barChart = new Chartisan({
+                el: '#bar-chart',
+                data: {
+                    "chart": {"labels": ["All time visits"]},
+                    "datasets": [
+                            @foreach($links as $link)
+                        {
+                            "name": "{{$link->url}}", "values": [{{$link->clicks_count}}]
+                        },
+                        @endforeach
+                    ],
+                },
+                hooks: new ChartisanHooks()
+                    .beginAtZero()
+                    .colors()
+                    .borderColors(),
+                options: {
+                    legend: {
+                        display: false
+                    },
+                },
+            })
+
+            const pieChart = new Chartisan({
+                el: '#pie-chart',
+                data: {
+
+                    "chart": {
+                        "labels": [
+                            @foreach($links as $link)
+                                "{{$link->url}}",
+                            @endforeach
+                        ]
+                    },
+                    "datasets": [
+                        {"name": "", "values": {{$links->pluck('clicks_count')}} },
+                    ]
+                },
+                hooks: new ChartisanHooks()
+                    .datasets('doughnut')
+                    .pieColors(),
+            })
+        </script>
     </div>
 </div>
 </body>
 </html>
+

@@ -38,14 +38,18 @@ class RegisteredUserController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        Auth::login($user = User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]));
+            'affiliate_link_uuid' => session('uuid'),
+        ]);
 
         event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
+        session()->flush();
+        session()->flash('message', 'Registration successful!');
+
+        return redirect('/welcome');
     }
 }
