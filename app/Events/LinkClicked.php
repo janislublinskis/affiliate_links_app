@@ -8,18 +8,18 @@ use Spatie\EventSourcing\StoredEvents\ShouldBeStored;
 class LinkClicked extends ShouldBeStored
 {
     /** @var string */
-    public $linkUuid;
+    public $url;
 
     /** @var string */
-    public $url;
+    public $linkUuid;
 
     /** @var string */
     public $created_at;
 
-    public function __construct(string $linkUuid, string $url, string $created_at)
+    public function __construct(string $url, string $linkUuid, string $created_at)
     {
-        $this->linkUuid = $linkUuid;
         $this->url = $url;
+        $this->linkUuid = $linkUuid;
         $this->created_at = $created_at;
     }
 }

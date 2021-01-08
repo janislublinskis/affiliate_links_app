@@ -36,6 +36,6 @@ class LinkController extends Controller
 
         session()->put('uuid', $uuid);
 
-        return redirect()->route('register')->withCookie(cookie('lastEvent',json_encode($event),60*24*30));
+        return redirect()->route('register')->withCookie(cookie('lastEvent',json_encode($event,JSON_UNESCAPED_SLASHES),60*24*30));
     }
 }

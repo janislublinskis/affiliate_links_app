@@ -19,14 +19,16 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register()
     {
+        session()->put('uuid', 'session-uuid');
+
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'affiliate_link_uuid' => session('uuid'),
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertRedirect(route('welcome'));
     }
 }
