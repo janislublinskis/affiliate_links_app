@@ -5,21 +5,21 @@
 **1. Unpack project's bundle file**
 
 Note: Make sure you have git installed locally on your computer first. In your terminal go to folder, where you wish 
-to clone this project, then enter command 'git clone links.bundle affiliate_links_app'
+to clone this project, then enter command `git clone links.bundle affiliate_links_app`
 
 **2. cd into affiliate_links_app**
 
 **3. Install Composer Dependencies**
 
-With command 'composer install'
+With command `composer install`
 
 **4. Install NPM Dependencies**
 
-With command 'npm install'
+With command `npm install`
 
 **5. Create a copy of your .env file**
 
-With command 'cp .env.example .env'
+With command `cp .env.example .env`
 
 **6. Generate an app encryption key**
 
@@ -48,7 +48,7 @@ It’s not a bad idea to check your database to make sure everything migrated th
 
 **10. Run sql file app/sql/links.sql**
 
-To fill 'links' table with 3 affiliate links.
+To fill `links` table with 3 affiliate links.
 
 **11. DB Schema file provided at app/database/SCHEMA:affiliate_links_app.uml**
 
@@ -58,9 +58,9 @@ That is all you need to get started on a project.
 ## Functionality
 
 1. On launching project server you will see three affiliate links to click on. Any of them will lead 
-   to '/register' view.
+   to `/register` view.
    
-2. After you register a user, you will be redirected to page where 'Registration successful' message will show up.
+2. After you register a user, you will be redirected to page where `Registration successful` message will show up.
    
 3. From here you can either login or continue to the Links visits statistics page. There data is formatted in table, 
    bar chart and pie chart views. Just give a sec to charts to load.
